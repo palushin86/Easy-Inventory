@@ -43,6 +43,12 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/inventory_items_delimiter"
+            app:layout_constraintBottom_toBottomOf="@+id/vg_parameters" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
