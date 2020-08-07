@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rwrw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <Spinner
+            android:id="@+id/spinner_equipment_type"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center" />
+
+        <Spinner
+            android:id="@+id/spinner_cabinet"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/et_equipment_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Наименование оборудования"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/et_inventory_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Инвернарный номер"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/et_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Количество"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/et_ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ip-адрес"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/et_os"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Операционная система"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

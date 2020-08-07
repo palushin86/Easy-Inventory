@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/et_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:hint="Наименование параметра"
+        android:textAlignment="center" />
+
+    <Spinner
+        android:id="@+id/color"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:visibility="gone"
+        android:spinnerMode="dropdown"
+        android:textAlignment="center" />
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>

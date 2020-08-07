@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Inventory</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Navigation drawer items-->
+    <string name="menu_inventory">Инвентарь</string>
+    <string name="menu_creating">Завести оборудование</string>
+    <string name="menu_parameters">Параметры</string>
+
+    <string name="home_second">Home Second</string>
+    <string name="filter_key">filter key</string>
+    <string name="filter_value">filter value</string>
+</resources>
