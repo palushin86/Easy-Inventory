@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="ru.palushin86.inventory.ui.inventory.InventoryFragment"
+        android:name="ru.palushin86.inventory.ui.items.ItemsFragment"
         android:label="@string/menu_inventory"
         tools:layout="@layout/fragment_items">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="ru.palushin86.inventory.ui.inventory.HomeSecondFragment"
+        android:name="ru.palushin86.inventory.ui.items.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="ru.palushin86.inventory.ui.parameters.ParametersFragment"
+        android:name="ru.palushin86.inventory.ui.tags.TagsFragment"
         android:label="@string/menu_parameters"
         tools:layout="@layout/fragment_tags" />
 </navigation>

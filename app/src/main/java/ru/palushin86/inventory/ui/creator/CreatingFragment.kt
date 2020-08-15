@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +18,6 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
     private lateinit var creatingViewModel: CreatingViewModel
     private lateinit var parametersAdapter: CreatorAdapter
     lateinit var inventory: Inventory
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +44,7 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
         parametersRecyclerView.itemAnimator = DefaultItemAnimator()
 
         val inventoryId: Int? = arguments?.getInt("inventory_id")
+
         if (inventoryId == null) {
             val parameters = mutableListOf<Parameter>()
             creatingViewModel.getParameterTypes().forEach { parameterType ->
@@ -56,31 +53,33 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
                 )
             }
             inventory = Inventory(title = "Name", parameters = parameters)
-
         } else {
             inventory = creatingViewModel.getInventory(inventoryId)
-            creator_inventory_name.setText(inventory.title)
+            creator_et_item_name.setText(inventory.title)
         }
 
         parametersAdapter = CreatorAdapter(inventory, this)
         parametersRecyclerView.adapter = parametersAdapter
-        creator_insert_inventory.setOnClickListener { onInsertBtnClicked() }
-
+        setListeners()
     }
+
+    private fun setListeners() {
+        creator_insert_inventory.setOnClickListener { onInsertBtnClicked() }
+        creator_cancel_inventory.setOnClickListener { onCancelBtnClicked() }
+    }
+
 
     override fun change(position: Int, text: String) {
         (inventory.parameters as MutableList)[position].value = text
     }
 
     private fun onInsertBtnClicked() {
-        inventory.title = creator_inventory_name.text.toString()
+        inventory.title = creator_et_item_name.text.toString()
+        creatingViewModel.addInventory(inventory)
+        parentFragmentManager.popBackStack()
+    }
 
-        println(inventory)
-
-        /*inventoryId?.let {
-            creatingViewModel.replaceInventory(inventory)
-        } ?: */creatingViewModel.addInventory(inventory)
-
+    private fun onCancelBtnClicked() {
         parentFragmentManager.popBackStack()
     }
 

@@ -1,4 +1,4 @@
-package ru.palushin86.inventory.ui.inventory
+package ru.palushin86.inventory.ui.items
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.google.android.flexbox.*
-import kotlinx.android.synthetic.main.items_item.view.*
+import kotlinx.android.synthetic.main.item_item.view.*
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.Inventory
 
@@ -26,7 +26,7 @@ class ParentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.items_item, parent, false)
+            .inflate(R.layout.item_item, parent, false)
         return ViewHolder(v)
     }
 

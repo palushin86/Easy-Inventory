@@ -1,4 +1,4 @@
-package ru.palushin86.inventory.ui.parameters
+package ru.palushin86.inventory.ui.tags
 
 import ru.palushin86.inventory.db.entities.ParameterTypeEntityDb
 import ru.palushin86.inventory.entities.ParameterType
@@ -6,7 +6,7 @@ import ru.palushin86.inventory.App
 
 import androidx.lifecycle.ViewModel
 
-class ParametersViewModel : ViewModel() {
+class TagsViewModel : ViewModel() {
     private val dao = App.database.appDao()
 
     fun getParameterTypes(): List<ParameterType> {
@@ -19,11 +19,11 @@ class ParametersViewModel : ViewModel() {
         return parameterTypes
     }
 
-    fun addParameterType(parameterType: ParameterType): Long {
+    fun addTag(parameterType: ParameterType): Long {
         return dao.insert(ParameterTypeEntityDb(parameterType))
     }
 
-    fun removeParameterType(id: Int) {
+    fun removeTag(id: Int) {
         dao.deleteParameterType(id)
     }
 

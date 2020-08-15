@@ -1,4 +1,4 @@
-package ru.palushin86.inventory.ui.parameters
+package ru.palushin86.inventory.ui.tags
 
 import ru.palushin86.inventory.R
 
@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import android.view.View
 import ru.palushin86.inventory.entities.ParameterType
 
-class ParametersAdapter(
+class TagsAdapter(
     private var parameters: List<ParameterType>
-) : RecyclerView.Adapter<ParametersAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TagsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.tags_item_tag, parent, false)

@@ -1,33 +1,33 @@
-package ru.palushin86.inventory.ui.parameters
+package ru.palushin86.inventory.ui.tags
 
-import android.app.AlertDialog
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
+import ru.palushin86.inventory.R
+import ru.palushin86.inventory.entities.ParameterType
+import ru.palushin86.inventory.ui.SwipeToDeleteCallback
+
+import kotlinx.android.synthetic.main.fragment_tags.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_tags.*
-import ru.palushin86.inventory.R
-import ru.palushin86.inventory.entities.ParameterType
-import ru.palushin86.inventory.ui.SwipeToDeleteCallback
+import android.app.AlertDialog
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 
-class ParametersFragment : Fragment() {
-    private lateinit var parametersViewModel: ParametersViewModel
-    private lateinit var parametersAdapter: ParametersAdapter
+class TagsFragment : Fragment() {
+    private lateinit var tagsViewModel: TagsViewModel
+    private lateinit var tagsAdapter: TagsAdapter
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        parametersViewModel = ViewModelProvider
-                .NewInstanceFactory()
-                .create(ParametersViewModel::class.java)
+        tagsViewModel = ViewModelProvider.NewInstanceFactory().create(TagsViewModel::class.java)
         return inflater.inflate(R.layout.fragment_tags, container, false)
     }
 
@@ -36,26 +36,24 @@ class ParametersFragment : Fragment() {
         val parametersRecyclerView = view.findViewById<RecyclerView>(R.id.rv_parameters_parameters)
         parametersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         parametersRecyclerView.itemAnimator = DefaultItemAnimator()
-        val items = parametersViewModel.getParameterTypes()
-        parametersAdapter = ParametersAdapter(items)
-        parametersRecyclerView.adapter = parametersAdapter
+        val items = tagsViewModel.getParameterTypes()
+        tagsAdapter = TagsAdapter(items)
+        parametersRecyclerView.adapter = tagsAdapter
 
         val swipeHandler = object : SwipeToDeleteCallback(context) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val builder = AlertDialog.Builder(context)
                 builder.setMessage("Подтвердите удаление")
                     .setPositiveButton("Удалить") { _, _ ->
-                        val position = viewHolder.adapterPosition
-                        parametersViewModel.removeParameterType(position)
-                        parametersAdapter.setItems(parametersViewModel.getParameterTypes())
+                        deleteTag(viewHolder.adapterPosition)
+
                     }
                     .setNegativeButton("Отмена") { _, _ ->
-                        parametersAdapter.notifyDataSetChanged()
+                        tagsAdapter.notifyDataSetChanged()
                     }
                     .create()
                     .show()
             }
-
         }
 
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
@@ -64,10 +62,14 @@ class ParametersFragment : Fragment() {
         setListeners()
     }
 
+    private fun deleteTag(position: Int) {
+        val removableTag = tagsViewModel.getParameterTypes()[position]
+        tagsViewModel.removeTag(removableTag.id!!)
+        tagsAdapter.setItems(tagsViewModel.getParameterTypes())
+    }
+
     private fun setListeners() {
         add_parameter.setOnClickListener { onAddParameterBtnClicked() }
-
-
     }
 
     private fun onAddParameterBtnClicked() {
@@ -89,9 +91,9 @@ class ParametersFragment : Fragment() {
     }
 
     private fun createParameterType(text: String) {
-        parametersViewModel.addParameterType(ParameterType(key = text))
-        parametersAdapter.setItems(parametersViewModel.getParameterTypes())
-        parametersAdapter.notifyDataSetChanged()
+        tagsViewModel.addTag(ParameterType(key = text))
+        tagsAdapter.setItems(tagsViewModel.getParameterTypes())
+        tagsAdapter.notifyDataSetChanged()
     }
 
 }

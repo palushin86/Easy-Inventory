@@ -17,4 +17,6 @@
     <string name="filter_value">filter value</string>
     <string name="tv_inventory_name">Системный блок</string>
     <string name="testing_string">Testing string</string>
+    <string name="btn_creator_insert">Сохранить</string>
+    <string name="btn_creator_cancel">Отмена</string>
 </resources>

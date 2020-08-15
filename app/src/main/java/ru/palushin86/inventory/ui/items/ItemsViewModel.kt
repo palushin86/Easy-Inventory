@@ -1,11 +1,11 @@
-package ru.palushin86.inventory.ui.inventory
+package ru.palushin86.inventory.ui.items
 
 import androidx.lifecycle.ViewModel
 import ru.palushin86.inventory.App
 import ru.palushin86.inventory.entities.Inventory
 import ru.palushin86.inventory.entities.Parameter
 
-class InventoryViewModel : ViewModel() {
+class ItemsViewModel : ViewModel() {
     val filters = mutableListOf<Parameter>()
     private val dao = App.database.appDao()
 

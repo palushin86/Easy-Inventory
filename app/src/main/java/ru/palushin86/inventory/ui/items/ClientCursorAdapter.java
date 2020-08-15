@@ -1,4 +1,4 @@
-package ru.palushin86.inventory.ui.inventory;
+package ru.palushin86.inventory.ui.items;
 
 import android.content.Context;
 import android.database.Cursor;

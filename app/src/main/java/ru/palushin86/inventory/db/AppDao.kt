@@ -18,7 +18,7 @@ interface AppDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(parameterType: ParameterTypeEntityDb): Long
 
-    @Query("DELETE FROM parametertypeentitydb WHERE id==:id")
+    @Query("DELETE FROM parametertypeentitydb WHERE id=:id")
     fun deleteParameterType(id: Int)
 
 
@@ -29,19 +29,19 @@ interface AppDao {
     fun insert(parameterType: InventoryEntityDb): Long
 
 
-    @Query("SELECT * from parameterentitydb WHERE inventoryId==:inventoryId")
+    @Query("SELECT * from parameterentitydb WHERE inventoryId=:inventoryId")
     fun getParameters(inventoryId: Int): List<ParameterEntityDb>
 
     @Query("SELECT * from parameterentitydb")
     fun getParameters(): List<ParameterEntityDb>
 
-    @Query("DELETE FROM inventoryentitydb WHERE id==:id")
+    @Query("DELETE FROM inventoryentitydb WHERE id=:id")
     fun removeInventory(id: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(parameters: List<ParameterEntityDb>)
 
-    @Query("SELECT * from inventoryentitydb WHERE id==:inventoryId")
+    @Query("SELECT * from inventoryentitydb WHERE id=:inventoryId")
     fun getEquipment(inventoryId: Int): InventoryEntityDb
 
     /*@Query("SELECT * from  ORDER BY name ASC")

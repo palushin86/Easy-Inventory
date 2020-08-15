@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     android:animateLayoutChanges="true"
-    tools:context=".ui.inventory.InventoryFragment">
+    tools:context=".ui.items.ItemsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_search_results"
