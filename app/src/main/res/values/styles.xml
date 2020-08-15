@@ -17,4 +17,22 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="CardViewMainStyle" parent="Theme.AppCompat.Light">
+        <item name="cardCornerRadius">5dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPaddingBottom">5dp</item>
+        <item name="contentPaddingTop">5dp</item>
+        <item name="contentPaddingLeft">5dp</item>
+        <item name="contentPaddingRight">5dp</item>
+        <item name="cardBackgroundColor">@color/item_color</item>
+    </style>
+
+    <style name="ParameterViewStyle" parent="Theme.AppCompat.Light">
+        <item name="cardCornerRadius">5dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPaddingLeft">5dp</item>
+        <item name="contentPaddingRight">5dp</item>
+        <item name="cardBackgroundColor">@color/item_color</item>
+    </style>
+
 </resources>

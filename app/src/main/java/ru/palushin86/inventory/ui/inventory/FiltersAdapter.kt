@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_filter.view.*
+import kotlinx.android.synthetic.main.items_filter.view.*
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.Parameter
 
@@ -16,7 +16,7 @@ class FiltersAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_filter, parent, false)
+            .inflate(R.layout.items_filter, parent, false)
         return ViewHolder(v)
     }
 

@@ -3,20 +3,23 @@ package ru.palushin86.inventory.ui.inventory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_parameter.view.*
+import kotlinx.android.synthetic.main.items_tag.view.*
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.Parameter
 
-class ChildAdapter(private val children : List<Parameter>)
-    : RecyclerView.Adapter<ChildAdapter.ViewHolder>(){
+class ChildAdapter(private val children: List<Parameter>) :
+    RecyclerView.Adapter<ChildAdapter.ViewHolder>() {
+    var isVisibleKey: Boolean = false
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ViewHolder {
-
-        val v =  LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_parameter,parent,false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.items_tag, parent, false)
         return ViewHolder(v)
     }
 
@@ -24,18 +27,36 @@ class ChildAdapter(private val children : List<Parameter>)
         return children.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder,
-                                  position: Int) {
+    override fun onBindViewHolder(
+        holder: ViewHolder,
+        position: Int
+    ) {
         val child = children[position]
-        holder.imageView!!.text = child.key
-        holder.textView.text = child.value
+        holder.tagKey!!.text = child.key
+        holder.tagValue.text = child.value
     }
 
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tagValue: TextView = itemView.tv_value
+        val tagKey: TextView? = itemView.tv_key
 
-    inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+        /*init {
+            itemView.setOnClickListener {
+                changeVisibleState(itemView.tv_k)
+            }
+        }*/
 
-        val textView : TextView = itemView.tv_key
-        val imageView: TextView? = itemView.tv_value
+        private fun changeVisibleState(tagKey: LinearLayout) {
+
+            if (isVisibleKey) {
+                tagKey.visibility = View.GONE
+                isVisibleKey = false
+            } else {
+                tagKey.visibility = View.VISIBLE
+                isVisibleKey = true
+            }
+
+        }
 
     }
 }

@@ -10,7 +10,7 @@ import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
-import kotlinx.android.synthetic.main.fragment_inventory.*
+import kotlinx.android.synthetic.main.fragment_items.*
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.Parameter
 import ru.palushin86.inventory.ui.SwipeToDeleteCallback
@@ -36,22 +36,21 @@ class InventoryFragment : Fragment(), DeleteInventoryListener, DeleteFilterListe
         inventoryViewModel = ViewModelProvider
             .NewInstanceFactory()
             .create(InventoryViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_inventory, container, false)
+        return inflater.inflate(R.layout.fragment_items, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        filtersRecyclerView = view.findViewById(R.id.search_results)
+        filtersRecyclerView = view.findViewById(R.id.rv_search_results)
         val filters = inventoryViewModel.filters
         filtersRecyclerView.layoutManager = GridLayoutManager(context, 3)
         filtersRecyclerView.itemAnimator = DefaultItemAnimator()
         filtersAdapter = FiltersAdapter(filters, this)
         filtersRecyclerView.adapter = filtersAdapter
 
-        val inventoriesRecyclerView = view.findViewById<RecyclerView>(R.id.rv_parent)
-        inventoriesRecyclerView.layoutManager =
-            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        val inventoriesRecyclerView = view.findViewById<RecyclerView>(R.id.rv_items)
+        inventoriesRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         inventoriesRecyclerView.itemAnimator = DefaultItemAnimator()
         inventoriesAdapter = ParentAdapter(inventoryViewModel.getFilteredInventories(), this)
         inventoriesRecyclerView.adapter = inventoriesAdapter

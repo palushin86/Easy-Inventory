@@ -24,9 +24,9 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         creatingViewModel = ViewModelProvider
             .NewInstanceFactory()
@@ -43,13 +43,14 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
         super.onViewCreated(view, savedInstanceState)
 
         val parametersRecyclerView = view.findViewById<RecyclerView>(R.id.creator_rv_parameters)
-        parametersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        parametersRecyclerView.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         parametersRecyclerView.itemAnimator = DefaultItemAnimator()
 
         val inventoryId: Int? = arguments?.getInt("inventory_id")
         if (inventoryId == null) {
             val parameters = mutableListOf<Parameter>()
-            creatingViewModel.getParameterTypes().forEach { parameterType->
+            creatingViewModel.getParameterTypes().forEach { parameterType ->
                 parameters.add(
                     Parameter(parameterType.key, "")
                 )

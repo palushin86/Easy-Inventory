@@ -26,4 +26,6 @@ class ParametersViewModel : ViewModel() {
     fun removeParameterType(id: Int) {
         dao.deleteParameterType(id)
     }
+
+
 }

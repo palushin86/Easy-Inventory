@@ -9,13 +9,15 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_parameters.*
+import kotlinx.android.synthetic.main.fragment_tags.*
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.ParameterType
+import ru.palushin86.inventory.ui.SwipeToDeleteCallback
 
-class ParametersFragment : Fragment(), DeleteParameterTypeListener {
+class ParametersFragment : Fragment() {
     private lateinit var parametersViewModel: ParametersViewModel
     private lateinit var parametersAdapter: ParametersAdapter
     override fun onCreateView(
@@ -26,7 +28,7 @@ class ParametersFragment : Fragment(), DeleteParameterTypeListener {
         parametersViewModel = ViewModelProvider
                 .NewInstanceFactory()
                 .create(ParametersViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_parameters, container, false)
+        return inflater.inflate(R.layout.fragment_tags, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,14 +37,37 @@ class ParametersFragment : Fragment(), DeleteParameterTypeListener {
         parametersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         parametersRecyclerView.itemAnimator = DefaultItemAnimator()
         val items = parametersViewModel.getParameterTypes()
-        parametersAdapter = ParametersAdapter(items, this)
+        parametersAdapter = ParametersAdapter(items)
         parametersRecyclerView.adapter = parametersAdapter
+
+        val swipeHandler = object : SwipeToDeleteCallback(context) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage("Подтвердите удаление")
+                    .setPositiveButton("Удалить") { _, _ ->
+                        val position = viewHolder.adapterPosition
+                        parametersViewModel.removeParameterType(position)
+                        parametersAdapter.setItems(parametersViewModel.getParameterTypes())
+                    }
+                    .setNegativeButton("Отмена") { _, _ ->
+                        parametersAdapter.notifyDataSetChanged()
+                    }
+                    .create()
+                    .show()
+            }
+
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(parametersRecyclerView)
 
         setListeners()
     }
 
     private fun setListeners() {
         add_parameter.setOnClickListener { onAddParameterBtnClicked() }
+
+
     }
 
     private fun onAddParameterBtnClicked() {
@@ -69,19 +94,4 @@ class ParametersFragment : Fragment(), DeleteParameterTypeListener {
         parametersAdapter.notifyDataSetChanged()
     }
 
-    override fun delete(position: Int) {
-        val builder =
-            AlertDialog.Builder(context)
-        builder.setMessage("Подтвердите удаление")
-            .setPositiveButton("Удалить") { _, _ ->
-                parametersViewModel.getParameterTypes()[position].id
-                    ?.let {
-                        parametersViewModel.removeParameterType(it)
-                        parametersAdapter.setItems(parametersViewModel.getParameterTypes())
-                    }
-            }
-            .setNegativeButton("Отмена") { _, _ -> }
-            .create()
-            .show()
-    }
 }

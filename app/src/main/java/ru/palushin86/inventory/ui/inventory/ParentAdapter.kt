@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import kotlinx.android.synthetic.main.item_inventory.view.*
+import com.google.android.flexbox.*
+import kotlinx.android.synthetic.main.items_item.view.*
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.Inventory
-import ru.palushin86.inventory.ui.OnSwipeTouchListener
 
 class ParentAdapter(
     private val parents: List<Inventory>,
@@ -27,7 +26,7 @@ class ParentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_inventory, parent, false)
+            .inflate(R.layout.items_item, parent, false)
         return ViewHolder(v)
     }
 
@@ -38,9 +37,10 @@ class ParentAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val parent = items[position]
         holder.textView.text = parent.title
-        val childLayoutManager =
-            LinearLayoutManager(holder.recyclerView.context, RecyclerView.HORIZONTAL, false)
-        childLayoutManager.initialPrefetchItemCount = 4
+        val childLayoutManager = FlexboxLayoutManager(holder.recyclerView.context)
+          //  LinearLayoutManager(holder.recyclerView.context, RecyclerView.HORIZONTAL, false)
+        //childLayoutManager.initialPrefetchItemCount = 4
+        childLayoutManager.flexWrap = FlexWrap.WRAP
         holder.recyclerView.apply {
             layoutManager = childLayoutManager
             adapter = ChildAdapter(parent.parameters.filter { it.value.isNotBlank() })

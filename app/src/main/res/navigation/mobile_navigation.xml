@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="ru.palushin86.inventory.ui.inventory.InventoryFragment"
         android:label="@string/menu_inventory"
-        tools:layout="@layout/fragment_inventory">
+        tools:layout="@layout/fragment_items">
 
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
@@ -39,5 +39,5 @@
         android:id="@+id/nav_slideshow"
         android:name="ru.palushin86.inventory.ui.parameters.ParametersFragment"
         android:label="@string/menu_parameters"
-        tools:layout="@layout/fragment_parameters" />
+        tools:layout="@layout/fragment_tags" />
 </navigation>

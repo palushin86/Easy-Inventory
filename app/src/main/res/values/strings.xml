@@ -15,4 +15,6 @@
     <string name="home_second">Home Second</string>
     <string name="filter_key">filter key</string>
     <string name="filter_value">filter value</string>
+    <string name="tv_inventory_name">Системный блок</string>
+    <string name="testing_string">Testing string</string>
 </resources>

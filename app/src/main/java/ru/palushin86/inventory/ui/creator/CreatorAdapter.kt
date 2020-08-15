@@ -3,7 +3,7 @@ package ru.palushin86.inventory.ui.creator
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.Parameter
 
-import kotlinx.android.synthetic.main.parameters_item_parameter.view.*
+import kotlinx.android.synthetic.main.tags_item_tag.view.*
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.creator_item_parameter.view.*
-import kotlinx.android.synthetic.main.parameters_item_parameter.view.parameters_tv_key
+import kotlinx.android.synthetic.main.tags_item_tag.view.parameters_tv_key
 import ru.palushin86.inventory.entities.Inventory
 import ru.palushin86.inventory.entities.ParameterType
 
