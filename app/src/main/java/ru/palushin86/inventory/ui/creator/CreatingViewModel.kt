@@ -6,16 +6,16 @@ import ru.palushin86.inventory.db.entities.InventoryEntityDb
 import ru.palushin86.inventory.db.entities.ParameterEntityDb
 import ru.palushin86.inventory.entities.Inventory
 import ru.palushin86.inventory.entities.Parameter
-import ru.palushin86.inventory.entities.ParameterType
+import ru.palushin86.inventory.entities.Tag
 
 class CreatingViewModel : ViewModel() {
     private val dao = App.database.appDao()
 
-    fun getParameterTypes(): List<ParameterType> {
-        val parameterTypes = mutableListOf<ParameterType>()
+    fun getParameterTypes(): List<Tag> {
+        val parameterTypes = mutableListOf<Tag>()
 
         dao.getParameterTypes().forEach {
-            parameterTypes.add(ParameterType(id = it.id, key = it.key))
+            parameterTypes.add(Tag(id = it.id, key = it.key, isAutocomplete = it.isAutocomplete))
         }
 
         return parameterTypes
@@ -30,7 +30,7 @@ class CreatingViewModel : ViewModel() {
         inventory.parameters.forEach {
             parameterEntities.add(
                 ParameterEntityDb(
-                    key = it.key,
+                    key = it.tag,
                     value = it.value,
                     inventoryId = inventoryId
                 )
@@ -55,7 +55,7 @@ class CreatingViewModel : ViewModel() {
         return Inventory(
             id = entity.id,
             title = entity.title,
-            parameters = parameters.distinctBy { it.key }.toList()
+            parameters = parameters.distinctBy { it.tag }.toList()
         )
     }
 
@@ -68,7 +68,7 @@ class CreatingViewModel : ViewModel() {
         inventory.parameters.forEach {
             parameterEntities.add(
                 ParameterEntityDb(
-                    key = it.key,
+                    key = it.tag,
                     value = it.value,
                     inventoryId = inventoryId
                 )

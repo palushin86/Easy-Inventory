@@ -22,7 +22,7 @@ class ItemsViewModel : ViewModel() {
 
             dao.getParameters(it.id!!).forEach { entity ->
                 param.add(
-                    Parameter(key = entity.key, value = entity.value)
+                    Parameter(tag = entity.key, value = entity.value)
                 )
             }
 
@@ -55,7 +55,7 @@ class ItemsViewModel : ViewModel() {
             .flatMap { it.parameters }
             .distinct()
             .filter {
-                (it.key.contains(query, true) ||
+                (it.tag.contains(query, true) ||
                         it.value.contains(query, true)) && !filters.contains(it)
             }
         val inve = getFilteredInventories()
@@ -67,7 +67,7 @@ class ItemsViewModel : ViewModel() {
                 )
             }
             .filter {
-                (it.key.contains(query, true) ||
+                (it.tag.contains(query, true) ||
                         it.value.contains(query, true)) && !filters.contains(it)
             }
 

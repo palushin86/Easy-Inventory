@@ -1,6 +1,6 @@
 package ru.palushin86.inventory.entities
 
 data class Parameter(
-    val key: String,
+    val tag: String,
     var value: String
 )

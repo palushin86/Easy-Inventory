@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.room.*
 import ru.palushin86.inventory.db.entities.InventoryEntityDb
 import ru.palushin86.inventory.db.entities.ParameterEntityDb
-import ru.palushin86.inventory.db.entities.ParameterTypeEntityDb
+import ru.palushin86.inventory.db.entities.TagEntityDb
 
 @Database(
     entities = [
         InventoryEntityDb::class,
         ParameterEntityDb::class,
-        ParameterTypeEntityDb::class
+        TagEntityDb::class
     ],
     version = 1,
     exportSchema = false

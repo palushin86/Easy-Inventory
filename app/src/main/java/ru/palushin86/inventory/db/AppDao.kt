@@ -1,25 +1,28 @@
 package ru.palushin86.inventory.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import ru.palushin86.inventory.db.entities.InventoryEntityDb
 import ru.palushin86.inventory.db.entities.ParameterEntityDb
-import ru.palushin86.inventory.db.entities.ParameterTypeEntityDb
-import ru.palushin86.inventory.entities.Inventory
-import ru.palushin86.inventory.entities.Parameter
-import ru.palushin86.inventory.entities.ParameterType
+import ru.palushin86.inventory.db.entities.TagEntityDb
+
 
 @Dao
 interface AppDao {
 
-    @Query("SELECT * from parametertypeentitydb")
-    fun getParameterTypes(): List<ParameterTypeEntityDb>
+    @Query("SELECT * from tagentitydb")
+    fun getParameterTypes(): List<TagEntityDb>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(parameterType: ParameterTypeEntityDb): Long
+    fun insert(tag: TagEntityDb): Long
 
-    @Query("DELETE FROM parametertypeentitydb WHERE id=:id")
+    @Query("DELETE FROM tagentitydb WHERE id=:id")
     fun deleteParameterType(id: Int)
+
+    @Query("UPDATE tagentitydb SET isAutocomplete = :isAutocomplete WHERE id = :id")
+    fun updateTag(id: Int, isAutocomplete: Boolean)
+
+    @Update
+    fun update(tagEntityDb: TagEntityDb)
 
 
     @Query("SELECT * from inventoryentitydb")

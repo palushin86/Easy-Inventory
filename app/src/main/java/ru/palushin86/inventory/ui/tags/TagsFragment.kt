@@ -1,7 +1,7 @@
 package ru.palushin86.inventory.ui.tags
 
 import ru.palushin86.inventory.R
-import ru.palushin86.inventory.entities.ParameterType
+import ru.palushin86.inventory.entities.Tag
 import ru.palushin86.inventory.ui.SwipeToDeleteCallback
 
 import kotlinx.android.synthetic.main.fragment_tags.*
@@ -18,7 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 
-class TagsFragment : Fragment() {
+class TagsFragment : Fragment(), OnAutocompleteStatusChanged {
     private lateinit var tagsViewModel: TagsViewModel
     private lateinit var tagsAdapter: TagsAdapter
 
@@ -37,7 +37,7 @@ class TagsFragment : Fragment() {
         parametersRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         parametersRecyclerView.itemAnimator = DefaultItemAnimator()
         val items = tagsViewModel.getParameterTypes()
-        tagsAdapter = TagsAdapter(items)
+        tagsAdapter = TagsAdapter(items, this)
         parametersRecyclerView.adapter = tagsAdapter
 
         val swipeHandler = object : SwipeToDeleteCallback(context) {
@@ -91,9 +91,17 @@ class TagsFragment : Fragment() {
     }
 
     private fun createParameterType(text: String) {
-        tagsViewModel.addTag(ParameterType(key = text))
+        tagsViewModel.addTag(Tag(key = text, isAutocomplete = false))
         tagsAdapter.setItems(tagsViewModel.getParameterTypes())
         tagsAdapter.notifyDataSetChanged()
+    }
+
+    override fun change(position: Int, status: Boolean) {
+        val tag = tagsViewModel.getParameterTypes()[position]
+        tag.isAutocomplete = status
+        tag.id?.let {
+            tagsViewModel.updateTag(tag)
+        }
     }
 
 }

@@ -38,7 +38,7 @@
             android:layout_width="10dp"
             android:layout_height="0dp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/parameters_tv_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

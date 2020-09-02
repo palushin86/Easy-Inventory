@@ -26,8 +26,10 @@ class CreatorAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val parent = parameters[position]
-        holder.key.text = parent.key
+        holder.key.text = parent.tag
         holder.value.text = parent.value
+
+
 /*
         holder.itemView.parameters_tv_value.doOnTextChanged { text, start, count, after ->
 
