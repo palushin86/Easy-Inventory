@@ -2,15 +2,15 @@ package ru.palushin86.inventory.db
 
 import android.content.Context
 import androidx.room.*
-import ru.palushin86.inventory.db.entities.InventoryEntityDb
-import ru.palushin86.inventory.db.entities.ParameterEntityDb
-import ru.palushin86.inventory.db.entities.TagEntityDb
+import ru.palushin86.inventory.db.entities.*
 
 @Database(
     entities = [
         InventoryEntityDb::class,
         ParameterEntityDb::class,
-        TagEntityDb::class
+        TagEntityDb::class,
+        FilterSetEntityDb::class,
+        FilterEntityDb::class
     ],
     version = 1,
     exportSchema = false

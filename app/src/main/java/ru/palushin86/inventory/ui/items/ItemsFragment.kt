@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.database.MatrixCursor
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
 import androidx.appcompat.widget.SearchView
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import androidx.fragment.app.Fragment
@@ -12,15 +13,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.*
 import kotlinx.android.synthetic.main.fragment_items.*
 import ru.palushin86.inventory.R
+import ru.palushin86.inventory.entities.FilterSet
 import ru.palushin86.inventory.entities.Parameter
 import ru.palushin86.inventory.ui.SwipeToDeleteCallback
 import ru.palushin86.inventory.ui.creator.CreatingFragment
 import ru.palushin86.inventory.ui.onItemClick
 import ru.palushin86.inventory.ui.textChanged
 
-class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener, LongClickListener {
+class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener, LongClickListener, FilterSetActions {
     private lateinit var itemsViewModel: ItemsViewModel
     private lateinit var filtersAdapter: FiltersAdapter
+    private lateinit var filterSetAdapter: FilterSetAdapter
     private lateinit var inventoriesAdapter: ParentAdapter
     lateinit var filtersRecyclerView: RecyclerView
 
@@ -42,12 +45,18 @@ class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        filtersRecyclerView = view.findViewById(R.id.rv_search_results)
+        filtersRecyclerView = view.findViewById(R.id.rv_filters)
         val filters = itemsViewModel.filters
         filtersRecyclerView.layoutManager = GridLayoutManager(context, 3)
         filtersRecyclerView.itemAnimator = DefaultItemAnimator()
         filtersAdapter = FiltersAdapter(filters, this)
         filtersRecyclerView.adapter = filtersAdapter
+
+        val fastFilters = itemsViewModel.getFilterSets()
+        rv_prepared_filters.layoutManager = GridLayoutManager(context, 3)
+        rv_prepared_filters.itemAnimator = DefaultItemAnimator()
+        filterSetAdapter = FilterSetAdapter(fastFilters, this)
+        rv_prepared_filters.adapter = filterSetAdapter
 
         val inventoriesRecyclerView = view.findViewById<RecyclerView>(R.id.rv_items)
         inventoriesRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -83,6 +92,7 @@ class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener,
 
     private fun setListeners() {
         add_equipment.setOnClickListener { addEquipmentBtnClicked() }
+        bnt_add_filter_set.setOnClickListener { createFilterSet() }
     }
 
     private fun addEquipmentBtnClicked() {
@@ -112,6 +122,18 @@ class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener,
 
         val searchViewItem = menu.findItem(R.id.action_search)
         val searchView = searchViewItem.actionView as SearchView
+
+        searchViewItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                layout_filters.visibility = RecyclerView.VISIBLE
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                layout_filters.visibility = RecyclerView.GONE
+                return true
+            }
+        } )
 
         val searchText =
             searchView.findViewById<View>(androidx.appcompat.R.id.search_src_text) as SearchView.SearchAutoComplete
@@ -149,10 +171,12 @@ class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener,
     }
 
     private fun addNewFilter(parameter: Parameter) {
+
         if (!itemsViewModel.filters.contains(parameter)) {
             itemsViewModel.filters.add(parameter)
             updateFiltersView()
         }
+
     }
 
     private fun updateFiltersView() {
@@ -177,12 +201,43 @@ class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener,
     override fun deleteFilter(position: Int) {
         itemsViewModel.filters.removeAt(position)
         updateFiltersView()
-        inventoriesAdapter.setItems(itemsViewModel.getFilteredInventories())
     }
 
     override fun longClicked(position: Int) {
         val id = itemsViewModel.getFilteredInventories()[position].id
         openCreatingFragment(id)
+    }
+
+    override fun createFilterSet() {
+        val inflater = activity?.layoutInflater
+        val dialogLayout = inflater?.inflate(R.layout.dialog_add_parameter, null)
+        val etParameterType  = dialogLayout?.findViewById<EditText>(R.id.et_key)
+        AlertDialog.Builder(context)
+            .setTitle("Введите имя для нового сета")
+            .setCancelable(false)
+            .setPositiveButton(android.R.string.yes) { _, _ ->
+                createNewFilterSet(etParameterType?.text.toString()) }
+            .setNegativeButton(android.R.string.no) { _, _ -> }
+            .setView(dialogLayout)
+            .create()
+            .show()
+        itemsViewModel.filters
+    }
+
+    private fun createNewFilterSet(name: String) {
+        val filterSet = FilterSet(name, itemsViewModel.filters)
+        itemsViewModel.insertFilterSet(filterSet)
+
+        filterSetAdapter.setItems(itemsViewModel.getFilterSets())
+    }
+
+    override fun onClick(position: Int) {
+        val set = itemsViewModel.getFilterSets()[position]
+        println(position)
+        println(set)
+        itemsViewModel.filters.clear()
+        itemsViewModel.filters.addAll(set.set)
+        updateFiltersView()
     }
 }
 

@@ -2,6 +2,9 @@ package ru.palushin86.inventory.ui.items
 
 import androidx.lifecycle.ViewModel
 import ru.palushin86.inventory.App
+import ru.palushin86.inventory.db.entities.FilterEntityDb
+import ru.palushin86.inventory.db.entities.FilterSetEntityDb
+import ru.palushin86.inventory.entities.FilterSet
 import ru.palushin86.inventory.entities.Inventory
 import ru.palushin86.inventory.entities.Parameter
 import ru.palushin86.inventory.entities.Tag
@@ -75,6 +78,28 @@ class ItemsViewModel : ViewModel() {
         result.addAll(param)
         result.addAll(inve)
         return result
+    }
+
+    fun insertFilterSet(filterSet: FilterSet) {
+        val fs = FilterSetEntityDb(name = filterSet.name)
+        val filterSetId = dao.insert(fs).toInt()
+        val fl = filterSet.set.map {
+            FilterEntityDb(filterSetId = filterSetId, tagId = it.tag.id, value = it.value)
+        }
+        dao.insertFilters(fl)
+    }
+
+    fun getFilterSets(): List<FilterSet> {
+        return dao.getFilterSets().map {
+            val set = dao.getFilters(it.id!!).map {
+                val tag = dao.getTag(it.tagId)
+                Parameter(tag, it.value)
+            }
+            FilterSet(
+                it.name,
+                set
+            )
+        }
     }
 
 }

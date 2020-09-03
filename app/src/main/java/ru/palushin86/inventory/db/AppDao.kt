@@ -1,9 +1,9 @@
 package ru.palushin86.inventory.db
 
 import androidx.room.*
-import ru.palushin86.inventory.db.entities.InventoryEntityDb
-import ru.palushin86.inventory.db.entities.ParameterEntityDb
-import ru.palushin86.inventory.db.entities.TagEntityDb
+import ru.palushin86.inventory.db.entities.*
+import ru.palushin86.inventory.entities.FilterSet
+import ru.palushin86.inventory.entities.Parameter
 import ru.palushin86.inventory.entities.Tag
 
 
@@ -54,6 +54,17 @@ interface AppDao {
     @Query("SELECT * from inventoryentitydb WHERE id=:inventoryId")
     fun getEquipment(inventoryId: Int): InventoryEntityDb
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(filterSet: FilterSetEntityDb): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFilters(filterSet: List<FilterEntityDb>)
+
+    @Query("SELECT * from filtersetentitydb")
+    fun getFilterSets(): List<FilterSetEntityDb>
+
+    @Query("SELECT * from filterentitydb WHERE id=:id")
+    fun getFilters(id: Int): List<FilterEntityDb>
 
     /*@Query("SELECT * from  ORDER BY name ASC")
     fun getEquipemtTypes(): LiveData<List<EquipmentType>>

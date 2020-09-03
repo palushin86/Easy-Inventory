@@ -10,13 +10,40 @@
     tools:context=".ui.items.ItemsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search_results"
+        android:id="@+id/rv_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/layout_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_filters">
+
+        <ImageView
+            android:id="@+id/bnt_add_filter_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_add" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_prepared_filters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_items"
@@ -25,7 +52,7 @@
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_search_results" />
+        app:layout_constraintTop_toBottomOf="@id/layout_filters" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_equipment"
