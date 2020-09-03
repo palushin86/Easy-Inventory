@@ -32,7 +32,7 @@ class ChildAdapter(private val children: List<Parameter>) :
         position: Int
     ) {
         val child = children[position]
-        holder.tagKey!!.text = child.tag
+        holder.tagKey!!.text = child.tag.key
         holder.tagValue.text = child.value
     }
 

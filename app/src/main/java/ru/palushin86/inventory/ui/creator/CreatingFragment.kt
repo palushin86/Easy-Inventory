@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_creator.*
+import kotlinx.android.synthetic.main.tags_item_tag.*
 import ru.palushin86.inventory.R
 import ru.palushin86.inventory.entities.Inventory
 import ru.palushin86.inventory.entities.Parameter
 
-class CreatingFragment : Fragment(), ParameterChangeListener {
+class CreatingFragment : Fragment(), ParameterChangeListener, OnAutocompleteFiledChanged {
     private lateinit var creatingViewModel: CreatingViewModel
     private lateinit var parametersAdapter: CreatorAdapter
     lateinit var inventory: Inventory
@@ -47,9 +48,9 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
 
         if (inventoryId == null) {
             val parameters = mutableListOf<Parameter>()
-            creatingViewModel.getParameterTypes().forEach { parameterType ->
+            creatingViewModel.getTags().forEach { tag ->
                 parameters.add(
-                    Parameter(parameterType.key, "")
+                    Parameter(tag, "")
                 )
             }
             inventory = Inventory(title = "Name", parameters = parameters)
@@ -58,7 +59,7 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
             creator_et_item_name.setText(inventory.title)
         }
 
-        parametersAdapter = CreatorAdapter(inventory, this)
+        parametersAdapter = CreatorAdapter(inventory, this, this)
         parametersRecyclerView.adapter = parametersAdapter
         setListeners()
     }
@@ -81,6 +82,10 @@ class CreatingFragment : Fragment(), ParameterChangeListener {
 
     private fun onCancelBtnClicked() {
         parentFragmentManager.popBackStack()
+    }
+
+    override fun updateDropList(tagId: Int, text: String) {
+
     }
 
 }

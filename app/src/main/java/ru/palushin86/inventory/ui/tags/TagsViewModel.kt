@@ -10,21 +10,23 @@ class TagsViewModel : ViewModel() {
     private val dao = App.database.appDao()
 
     fun getParameterTypes(): List<Tag> {
-        val x = dao.getParameterTypes().map { Tag(id = it.id, key = it.key, isAutocomplete = it.isAutocomplete) }
-        println(x)
-        return x
+        return dao.getTags().map { Tag(id = it.id!!, key = it.key, isAutocomplete = it.isAutocomplete) }
     }
 
-    fun addTag(tag: Tag): Long {
-        return dao.insert(TagEntityDb(tag))
+    fun addTag(tagName: String, isAutocomplete: Boolean): Long {
+        return dao.insert(
+            TagEntityDb(
+                key = tagName,
+                isAutocomplete = isAutocomplete)
+        )
     }
 
     fun removeTag(id: Int) {
-        dao.deleteParameterType(id)
+        dao.deleteTag(id)
     }
 
     fun updateTag(tag: Tag) {
-        dao.updateTag(tag.id!!, tag.isAutocomplete)
+        dao.updateTag(tag.id, tag.isAutocomplete)
     }
 
 

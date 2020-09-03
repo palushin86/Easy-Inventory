@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import ru.palushin86.inventory.App
 import ru.palushin86.inventory.entities.Inventory
 import ru.palushin86.inventory.entities.Parameter
+import ru.palushin86.inventory.entities.Tag
 
 class ItemsViewModel : ViewModel() {
     val filters = mutableListOf<Parameter>()
@@ -22,12 +23,14 @@ class ItemsViewModel : ViewModel() {
 
             dao.getParameters(it.id!!).forEach { entity ->
                 param.add(
-                    Parameter(tag = entity.key, value = entity.value)
+                    Parameter(
+                        tag = dao.getTag(entity.tagId),
+                        value = entity.value
+                    )
                 )
             }
 
             equipments.add(
-
                 Inventory(
                     id = it.id,
                     title = it.title,
@@ -44,8 +47,6 @@ class ItemsViewModel : ViewModel() {
 
         }
 
-        println(filtered)
-
         return filtered
     }
 
@@ -55,19 +56,19 @@ class ItemsViewModel : ViewModel() {
             .flatMap { it.parameters }
             .distinct()
             .filter {
-                (it.tag.contains(query, true) ||
+                (it.tag.key.contains(query, true) ||
                         it.value.contains(query, true)) && !filters.contains(it)
             }
         val inve = getFilteredInventories()
             .distinct()
             .map {
                 Parameter(
-                    "title",
+                    Tag(-1, "title", false),
                     it.title
                 )
             }
             .filter {
-                (it.tag.contains(query, true) ||
+                (it.tag.key.contains(query, true) ||
                         it.value.contains(query, true)) && !filters.contains(it)
             }
 

@@ -1,7 +1,6 @@
 package ru.palushin86.inventory.ui.tags
 
 import ru.palushin86.inventory.R
-import ru.palushin86.inventory.entities.Tag
 import ru.palushin86.inventory.ui.SwipeToDeleteCallback
 
 import kotlinx.android.synthetic.main.fragment_tags.*
@@ -82,7 +81,7 @@ class TagsFragment : Fragment(), OnAutocompleteStatusChanged {
                 .setTitle("Ввод нового типа оборудования")
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.yes) { _, _ ->
-                    createParameterType(etParameterType.text.toString()) }
+                    createTag(etParameterType.text.toString()) }
                 .setNegativeButton(android.R.string.no) { _, _ -> }
                 .setView(dialogLayout)
                 .create()
@@ -90,8 +89,8 @@ class TagsFragment : Fragment(), OnAutocompleteStatusChanged {
         }
     }
 
-    private fun createParameterType(text: String) {
-        tagsViewModel.addTag(Tag(key = text, isAutocomplete = false))
+    private fun createTag(tagName: String) {
+        tagsViewModel.addTag(tagName, false)
         tagsAdapter.setItems(tagsViewModel.getParameterTypes())
         tagsAdapter.notifyDataSetChanged()
     }
@@ -99,9 +98,7 @@ class TagsFragment : Fragment(), OnAutocompleteStatusChanged {
     override fun change(position: Int, status: Boolean) {
         val tag = tagsViewModel.getParameterTypes()[position]
         tag.isAutocomplete = status
-        tag.id?.let {
-            tagsViewModel.updateTag(tag)
-        }
+        tagsViewModel.updateTag(tag)
     }
 
 }

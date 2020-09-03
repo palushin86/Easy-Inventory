@@ -4,19 +4,23 @@ import androidx.room.*
 import ru.palushin86.inventory.db.entities.InventoryEntityDb
 import ru.palushin86.inventory.db.entities.ParameterEntityDb
 import ru.palushin86.inventory.db.entities.TagEntityDb
+import ru.palushin86.inventory.entities.Tag
 
 
 @Dao
 interface AppDao {
 
     @Query("SELECT * from tagentitydb")
-    fun getParameterTypes(): List<TagEntityDb>
+    fun getTags(): List<TagEntityDb>
+
+    @Query("SELECT * from tagentitydb WHERE id=:tagId")
+    fun getTag(tagId: Int): Tag
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(tag: TagEntityDb): Long
 
     @Query("DELETE FROM tagentitydb WHERE id=:id")
-    fun deleteParameterType(id: Int)
+    fun deleteTag(id: Int)
 
     @Query("UPDATE tagentitydb SET isAutocomplete = :isAutocomplete WHERE id = :id")
     fun updateTag(id: Int, isAutocomplete: Boolean)
@@ -38,6 +42,9 @@ interface AppDao {
     @Query("SELECT * from parameterentitydb")
     fun getParameters(): List<ParameterEntityDb>
 
+    @Query("SELECT * from parameterentitydb WHERE tagId=:tagId")
+    fun getParametersByTag(tagId: Int): List<ParameterEntityDb>
+
     @Query("DELETE FROM inventoryentitydb WHERE id=:id")
     fun removeInventory(id: Int)
 
@@ -46,6 +53,7 @@ interface AppDao {
 
     @Query("SELECT * from inventoryentitydb WHERE id=:inventoryId")
     fun getEquipment(inventoryId: Int): InventoryEntityDb
+
 
     /*@Query("SELECT * from  ORDER BY name ASC")
     fun getEquipemtTypes(): LiveData<List<EquipmentType>>

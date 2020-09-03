@@ -12,12 +12,18 @@ import java.util.*
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("inventoryId"),
         onDelete = CASCADE
-    )
+    )/*,
+    ForeignKey(
+        entity = TagEntityDb::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("tagId"),
+        onDelete = CASCADE
+    )*/
 ])
 data class ParameterEntityDb(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    val key: String,
+    val tagId: Int,
     val value: String,
     val inventoryId: Int
 ) {

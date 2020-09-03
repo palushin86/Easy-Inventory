@@ -26,7 +26,7 @@ class FiltersAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val parameter = parameters[position]
-        holder.key.text = parameter.tag
+        holder.key.text = parameter.tag.key
         holder.value.text = parameter.value
         holder.itemView.setOnClickListener {
             deleteFilterListener.deleteFilter(position)

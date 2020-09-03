@@ -10,6 +10,4 @@ data class TagEntityDb(
     val id: Int? = null,
     val key: String,
     var isAutocomplete: Boolean
-) {
-    constructor(tag: Tag) : this(key = tag.key, isAutocomplete = tag.isAutocomplete)
-}
+)

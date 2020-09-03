@@ -7,14 +7,17 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import android.view.ViewGroup
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.item_parameter_creator.view.*
 import kotlinx.android.synthetic.main.tags_item_tag.view.parameters_tv_key
+import ru.palushin86.inventory.App
 import ru.palushin86.inventory.entities.Inventory
 
 class CreatorAdapter(
     inventory: Inventory,
-    private val changeListener: ParameterChangeListener
+    private val changeListener: ParameterChangeListener,
+    private val onAutocompleteFiledChanged: OnAutocompleteFiledChanged
 ) : RecyclerView.Adapter<CreatorAdapter.ViewHolder>() {
     val parameters = inventory.parameters
 
@@ -26,14 +29,29 @@ class CreatorAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val parent = parameters[position]
-        holder.key.text = parent.tag
+        holder.key.text = parent.tag.key
         holder.value.text = parent.value
 
+        if (parent.tag.isAutocomplete == true) {
+            holder.itemView.parameters_tv_value.doOnTextChanged { text, start, count, after ->
+                val items = arrayOf("Мурзик", "Рыжик", "Барсик", "Борис",
+                    "Мурзилка", "Мурка")
+                val variants = App.database.appDao().getParametersByTag(parent.tag.id)
+                    .filter { it.value.contains(text ?: "") }
+                    .distinct()
+                    .map { it.value }
 
-/*
-        holder.itemView.parameters_tv_value.doOnTextChanged { text, start, count, after ->
+                val adapter = ArrayAdapter<String>(
+                    holder.itemView.context
+                    , android.R.layout.simple_list_item_1,
+                    variants
+                )
+                holder.itemView.parameters_tv_value.setAdapter(adapter)
+                onAutocompleteFiledChanged.updateDropList(parent.tag.id, text.toString())
+            }
+        }
 
-        }*/
+
     }
 
     override fun getItemCount(): Int {
