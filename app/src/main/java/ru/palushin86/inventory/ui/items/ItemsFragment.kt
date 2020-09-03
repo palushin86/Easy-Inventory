@@ -128,7 +128,7 @@ class ItemsFragment : Fragment(), DeleteInventoryListener, DeleteFilterListener,
         val cursor = MatrixCursor(columns)
 
         elements.forEachIndexed { index, parameter ->
-            cursor.addRow(arrayOf(index, parameter.tag, parameter.value));
+            cursor.addRow(arrayOf(index, parameter.tag.key, parameter.value));
         }
 
         val cursorAdapter = SimpleCursorAdapter(

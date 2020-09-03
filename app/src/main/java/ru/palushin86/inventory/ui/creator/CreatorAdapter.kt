@@ -34,12 +34,10 @@ class CreatorAdapter(
 
         if (parent.tag.isAutocomplete == true) {
             holder.itemView.parameters_tv_value.doOnTextChanged { text, start, count, after ->
-                val items = arrayOf("Мурзик", "Рыжик", "Барсик", "Борис",
-                    "Мурзилка", "Мурка")
                 val variants = App.database.appDao().getParametersByTag(parent.tag.id)
                     .filter { it.value.contains(text ?: "") }
-                    .distinct()
                     .map { it.value }
+                    .distinct()
 
                 val adapter = ArrayAdapter<String>(
                     holder.itemView.context
